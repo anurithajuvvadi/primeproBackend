@@ -19,7 +19,10 @@ public interface Trainerservice {
 	
 	public List<Trainer> findByLastname(String s);
 
+	//ashish
+	public List<Trainer> findByFirstnameContains(String s);
+	public List<Trainer> findByLastnameContains(String s);
 
-	
+	public List<Trainer> findAllByKey(String key);
 
 }
