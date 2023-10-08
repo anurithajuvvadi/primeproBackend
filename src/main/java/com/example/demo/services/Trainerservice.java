@@ -1,17 +1,21 @@
 package com.example.demo.services;
 
+import java.io.IOException;
 import java.util.List;
 
+import com.example.demo.Dao.TrainerDao;
 import com.example.demo.entities.Trainer;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface Trainerservice {
 	public List<Trainer> getTrainers();
 
 	public Trainer getTrainerById(long trainerId);
 
-	public Trainer addTrainer(Trainer c);
 
-	public Trainer updateTrainer(Trainer c);
+	Trainer addTrainer(String trainerJson, MultipartFile file) throws IOException;
+
+	public Trainer updateTrainer(String trainerJson,MultipartFile file,long id) throws IOException;
 
 	public void deleteTrainer(long parseLong);
 	
@@ -24,5 +28,7 @@ public interface Trainerservice {
 	public List<Trainer> findByLastnameContains(String s);
 
 	public List<Trainer> findAllByKey(String key);
+
+	public byte[] getImageData(long id);
 
 }

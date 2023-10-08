@@ -1,9 +1,8 @@
 package com.example.demo.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.Arrays;
 
 @Entity
 public class Trainer {
@@ -15,17 +14,29 @@ public class Trainer {
 	private String firstname;
 	private String lastname;
 	private String emailid;
+	private  String designation;
+	private String qualification;
+
+	@Lob
+	@Column(columnDefinition = "LONGBLOB")
+	private byte[] img;
+
+
 	public Trainer() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Trainer(long id, String firstname, String lastname, String emailid) {
-		super();
+
+	public Trainer(long id, String firstname, String lastname, String emailid, String designation, String qualification, byte[] img) {
 		this.id = id;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.emailid = emailid;
+		this.designation = designation;
+		this.qualification = qualification;
+		this.img = img;
 	}
+
 	public long getId() {
 		return id;
 	}
@@ -50,13 +61,41 @@ public class Trainer {
 	public void setEmailid(String emailid) {
 		this.emailid = emailid;
 	}
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
+
+	public String getQualification() {
+		return qualification;
+	}
+
+	public void setQualification(String qualification) {
+		this.qualification = qualification;
+	}
+
+	public byte[] getImg() {
+		return img;
+	}
+
+	public void setImg(byte[] img) {
+		this.img = img;
+	}
+
 	@Override
 	public String toString() {
-		return "Trainer [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", emailid=" + emailid
-				+ "]";
+		return "Trainer{" +
+				"id=" + id +
+				", firstname='" + firstname + '\'' +
+				", lastname='" + lastname + '\'' +
+				", emailid='" + emailid + '\'' +
+				", designation='" + designation + '\'' +
+				", qualification='" + qualification + '\'' +
+				", img=" + Arrays.toString(img) +
+				'}';
 	}
-	
-	
-	
-
 }
