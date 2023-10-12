@@ -2,6 +2,7 @@ package com.example.demo.entities;
 
 import jakarta.persistence.*;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,25 +16,30 @@ public class Course {
     private String name;
     private String duration;
 
-    private double price;
+    private int price;
 
-    @ManyToMany
-    @JoinTable(
-            name = "course_images",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "image_id")
-    )
-    Set<Image> imageSet =new HashSet<>();
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] file;
+
+    private String filename;
+
+//    @ManyToMany
+//    @JoinTable(
+//            name = "course_images",
+//            joinColumns = @JoinColumn(name = "course_id"),
+//            inverseJoinColumns = @JoinColumn(name = "image_id")
+//    )
+//    Set<Image> imageSet =new HashSet<>();
 
 
-    public Course(int id, String name, String duration, double price) {
+    public Course(int id, String name, String duration, int price) {
         this.id = id;
         this.name = name;
         this.duration = duration;
         this.price = price;
     }
 
-   Course(){
+   public Course(){
 
    }
     public int getId() {
@@ -64,15 +70,51 @@ public class Course {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
-    public Set<Image> getImagesSet() {
-        return imageSet;
+    public byte[] getFile() {
+        return file;
     }
 
-    public void setImagesSet(Set<Image> imageSet) {
-        this.imageSet = imageSet;
+    public void setFile(byte[] file) {
+        this.file = file;
     }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public Course(int id, String name, String duration, int price, byte[] file, String filename) {
+        this.id = id;
+        this.name = name;
+        this.duration = duration;
+        this.price = price;
+        this.file = file;
+        this.filename = filename;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", duration='" + duration + '\'' +
+                ", price=" + price +
+                ", file=" + Arrays.toString(file) +
+                ", filename='" + filename + '\'' +
+                '}';
+    }
+//    public Set<Image> getImagesSet() {
+//        return imageSet;
+//    }
+//
+//    public void setImagesSet(Set<Image> imageSet) {
+//        this.imageSet = imageSet;
+//    }
 }
