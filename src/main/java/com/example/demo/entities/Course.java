@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Courses {
+public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,29 +23,19 @@ public class Courses {
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "image_id")
     )
-    Set<Images> imagesSet =new HashSet<>();
+    Set<Image> imageSet =new HashSet<>();
 
-    public Courses(String name, String duration, double price) {
-        this.name = name;
-        this.duration = duration;
-        this.price = price;
-    }
 
-    public Courses(int id, String name, String duration, double price) {
+    public Course(int id, String name, String duration, double price) {
         this.id = id;
         this.name = name;
         this.duration = duration;
         this.price = price;
     }
 
-    public Courses(int id, String name, String duration, double price, Set<Images> imagesSet) {
-        this.id = id;
-        this.name = name;
-        this.duration = duration;
-        this.price = price;
-        this.imagesSet = imagesSet;
-    }
+   Course(){
 
+   }
     public int getId() {
         return id;
     }
@@ -78,11 +68,11 @@ public class Courses {
         this.price = price;
     }
 
-    public Set<Images> getImagesSet() {
-        return imagesSet;
+    public Set<Image> getImagesSet() {
+        return imageSet;
     }
 
-    public void setImagesSet(Set<Images> imagesSet) {
-        this.imagesSet = imagesSet;
+    public void setImagesSet(Set<Image> imageSet) {
+        this.imageSet = imageSet;
     }
 }

@@ -45,6 +45,7 @@ public class Trainerserviceimpl implements Trainerservice {
             e.printStackTrace();
         }
 
+
         Trainer trainer1 = new Trainer();
         trainer1.setFirstname(trainer.getFirstname());
         trainer1.setLastname(trainer.getLastname());
@@ -60,21 +61,24 @@ public class Trainerserviceimpl implements Trainerservice {
     public Trainer updateTrainer(String trainerJson, MultipartFile file, long id) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         TrainerDao trainer = null;
-        System.out.println(trainerJson.toString());
         try {
             trainer = objectMapper.readValue(trainerJson, TrainerDao.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Trainer trainer1 = trainerRepo.findById(id).orElseThrow(()->  new RuntimeException("not found"));
+
+        Trainer trainer1 = trainerRepo.findById(id).orElseThrow(() -> new RuntimeException("not found"));
         trainer1.setId(trainer.getId());
         trainer1.setFirstname(trainer.getFirstname());
         trainer1.setLastname(trainer.getLastname());
         trainer1.setEmailid(trainer.getEmailid());
         trainer1.setDesignation(trainer.getDesignation());
         trainer1.setQualification(trainer.getQualification());
-        trainer1.setImg(imageUtility.compressImage(file.getBytes()));
+        if (file.isEmpty())
+            trainer1.setImg(trainer1.getImg());
+        if (!file.isEmpty())
+            trainer1.setImg(imageUtility.compressImage(file.getBytes()));
         trainerRepo.save(trainer1);
         return trainer1;
     }

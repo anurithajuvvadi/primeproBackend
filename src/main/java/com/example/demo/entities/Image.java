@@ -2,16 +2,14 @@ package com.example.demo.entities;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
-
 @Entity
-public class Images {
+public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
     @Lob
-    @Column(columnDefinition = "LONGBYTE")
+    @Column(columnDefinition = "LONGBLOB")
     private byte[] file;
 
     public int getId() {
@@ -38,7 +36,10 @@ public class Images {
         this.file = file;
     }
 
-    public Images(int id, String name, byte[] file) {
+    public Image(){
+
+    }
+    public Image(int id, String name, byte[] file) {
         this.id = id;
         this.name = name;
         this.file = file;
