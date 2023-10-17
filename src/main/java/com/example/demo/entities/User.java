@@ -12,16 +12,16 @@ public class User {
     @Column(unique = true)
     private String email;
     private String password;
-    private String role;
+    private String roles;
 
-    User(){
+    public User(){
 
     }
     public User(int id, String email, String password, String role) {
         this.id = id;
         this.email = email;
         this.password = password;
-        this.role = role;
+        this.roles = role;
     }
 
     public int getId() {
@@ -49,11 +49,11 @@ public class User {
     }
 
     public String getRole() {
-        return role;
+        return roles;
     }
 
     public void setRole(String role) {
-        this.role = role;
+        this.roles = role;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class User {
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", role='" + role + '\'' +
+                ", role='" + roles + '\'' +
                 '}';
     }
 }

@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
+@RequestMapping("/trainers")
+@CrossOrigin(origins = "http://localhost:4200")
 public class MyController {
     @Autowired
     ImageUtility imageUtility;
@@ -27,31 +30,32 @@ public class MyController {
 
 
     @GetMapping("/home")
-    public String home() {
+    public String home(Principal principal) {
+//        System.out.println(principal.getName());
         return "this is my first page";
     }
 
     //get list of all courses
-    @GetMapping("/trainers")
+    @GetMapping("/")
     public List<Trainer> getTrainers() {
         return this.trainerserviceimpl.getTrainers();
     }
 
     //get single course by id
-    @GetMapping("trainers/{trainerId}")
+    @GetMapping("/{trainerId}")
     public Trainer getTrainerById(@PathVariable String trainerId) {
         return this.trainerserviceimpl.getTrainerById(Long.parseLong(trainerId));
     }
 
     //adding a new course
-    @PostMapping("/trainers")
+    @PostMapping("/")
     public ResponseEntity<?> addTrainer(@RequestParam("file") MultipartFile file, @RequestParam("trainer") String trainerJson) throws IOException {
 //	public ResponseEntity<?> addTrainer(@RequestParam("trainerImg") MultipartFile file, @RequestBody Trainer c) {
         trainerserviceimpl.addTrainer(trainerJson, file);
         return ResponseEntity.status(HttpStatus.OK).body("Created");
     }
 
-    @PutMapping("/trainers/update/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<String> updateCourse(@RequestParam("file") MultipartFile file, @RequestParam("trainer") String trainerJson, @PathVariable int id) throws IOException {
         this.trainerserviceimpl.updateTrainer(trainerJson,file,id);
         System.out.println();
@@ -60,7 +64,7 @@ public class MyController {
     }
 
     //deleting course
-    @DeleteMapping("/trainers/{trainerId}")
+    @DeleteMapping("/{trainerId}")
     public ResponseEntity<HttpStatus> deleteCourse(@PathVariable String trainerId) {
         try {
             this.trainerserviceimpl.deleteTrainer(Long.parseLong(trainerId));
@@ -71,29 +75,29 @@ public class MyController {
         }
     }
 
-    @GetMapping("/trainers/firstname/{firstname}")
+    @GetMapping("/firstname/{firstname}")
     public List<Trainer> findByFirstname(@PathVariable String firstname) {
         return this.trainerserviceimpl.findByFirstnameContains(firstname);
     }
 
-    @GetMapping("/trainers/lastname/{lastname}")
+    @GetMapping("/lastname/{lastname}")
     public List<Trainer> findByLastname(@PathVariable String lastname) {
         return this.trainerserviceimpl.findByLastnameContains(lastname);
     }
 
-    @GetMapping("/trainers/findbykey/{key}")
+    @GetMapping("/findbykey/{key}")
     public List<Trainer> findByKey(@PathVariable String key) {
         return this.trainerserviceimpl.findAllByKey(key);
     }
 
-    @DeleteMapping("/trainers/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteTrainer(@PathVariable int id) {
         System.out.println(id);
         this.trainerserviceimpl.deleteTrainer((long) id);
         return ResponseEntity.status(HttpStatus.OK).body("Trainer Deleted!!!");
     }
 
-    @GetMapping("/trainers/img/{id}")
+    @GetMapping("/img/{id}")
     public ResponseEntity<byte[]> getImageData(@PathVariable int id){
      byte[] imageData = trainerserviceimpl.getImageData(id);
         System.out.println(imageData);
