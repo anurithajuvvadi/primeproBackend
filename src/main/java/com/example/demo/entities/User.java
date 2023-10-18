@@ -17,11 +17,11 @@ public class User {
     public User(){
 
     }
-    public User(int id, String email, String password, String role) {
+    public User(int id, String email, String password, String roles) {
         this.id = id;
         this.email = email;
         this.password = password;
-        this.roles = role;
+        this.roles = roles;
     }
 
     public int getId() {
@@ -48,12 +48,13 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
+
+    public String getRoles() {
         return roles;
     }
 
-    public void setRole(String role) {
-        this.roles = role;
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 
     @Override

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,43 +15,51 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/courses")
-@CrossOrigin(origins = "http://localhost:4200")
 public class CourseController {
 
     @Autowired
     CourseServiceImpl courseServiceImp;
 
     @GetMapping("/")
+    @PreAuthorize("permitAll()")
     public List<Course> courses() {
-      List<Course> course =  this.courseServiceImp.getAllCourses();
+        List<Course> course = this.courseServiceImp.getAllCourses();
         return course;
     }
+
     @PostMapping("/addCourse")
-    public ResponseEntity<?> addCourse(@RequestParam("file") MultipartFile file, @RequestParam("data") String  courseDataSring) throws IOException {
-        courseServiceImp.addCourse(file,courseDataSring);
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> addCourse(@RequestParam("file") MultipartFile file, @RequestParam("data") String courseDataSring) throws IOException {
+        courseServiceImp.addCourse(file, courseDataSring);
         return ResponseEntity.status(HttpStatus.OK).body("Course Added");
     }
+
     @PutMapping("/updateCourse/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> addCourse(@RequestParam("file") MultipartFile file,
-                                       @RequestParam("data") String  courseDataSring,
+                                       @RequestParam("data") String courseDataSring,
                                        @PathVariable("id") int id) throws IOException {
-        courseServiceImp.updateCourse(file,courseDataSring,id);
+        courseServiceImp.updateCourse(file, courseDataSring, id);
         return ResponseEntity.status(HttpStatus.OK).body("Course Added");
     }
+
     @DeleteMapping("/deleteCourse/{id}")
-    public ResponseEntity<String > deleteCourse(@PathVariable("id") int id){
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<String> deleteCourse(@PathVariable("id") int id) {
         this.courseServiceImp.deleteCourse(id);
         return ResponseEntity.status(HttpStatus.OK).body("Deleted Course Successfully");
     }
 
     @GetMapping("/getImage/{id}")
-    public ResponseEntity<byte[]> getImageFromImages(@PathVariable int id){
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<byte[]> getImageFromImages(@PathVariable int id) {
         byte[] image = this.courseServiceImp.getImageByIdToData(id);
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("media/jpg")).body(image);
     }
 
     @GetMapping("/getCourseById/{id}")
-    public Course getCourseById(@PathVariable("id") int id){
+    @PreAuthorize("permitAll()")
+    public Course getCourseById(@PathVariable("id") int id) {
         Course course = this.courseServiceImp.getCourseById(id);
         return ResponseEntity.status(HttpStatus.OK).body(course).getBody();
     }
