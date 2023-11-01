@@ -1,4 +1,4 @@
-package com.example.demo.Controller;
+  package com.example.demo.Controller;
 
 import com.example.demo.entities.Course;
 import com.example.demo.servicesimp.CourseServiceImpl;
@@ -36,11 +36,11 @@ public class CourseController {
 
     @PutMapping("/updateCourse/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> addCourse(@RequestParam("file") MultipartFile file,
-                                       @RequestParam("data") String courseDataSring,
-                                       @PathVariable("id") int id) throws IOException {
-        courseServiceImp.updateCourse(file, courseDataSring, id);
-        return ResponseEntity.status(HttpStatus.OK).body("Course Added");
+    public ResponseEntity<?> addCourse(@RequestParam("file") MultipartFile file,//image
+                                       @RequestParam("data") String courseDataSring,//data about course
+                                       @PathVariable("id") int id) throws IOException {//id of the course to be updated
+        courseServiceImp.updateCourse(file, courseDataSring, id);//saving into db
+        return ResponseEntity.status(HttpStatus.OK).body("Course Updated");
     }
 
     @DeleteMapping("/deleteCourse/{id}")

@@ -55,6 +55,8 @@ public class MyController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> addTrainer(@RequestParam("file") MultipartFile file, @RequestParam("trainer") String trainerJson) throws IOException {
 //	public ResponseEntity<?> addTrainer(@RequestParam("trainerImg") MultipartFile file, @RequestBody Trainer c) {
+    	System.out.println("ON");
+    	
         trainerserviceimpl.addTrainer(trainerJson, file);
         return ResponseEntity.status(HttpStatus.OK).body("Created");
     }

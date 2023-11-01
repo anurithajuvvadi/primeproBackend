@@ -42,32 +42,32 @@ public class AuthController {
     @PostMapping("/register")
     @PreAuthorize("permitAll()")
     public ResponseEntity<String> register(@RequestBody User user) {
-        System.out.println(user.getEmail());
+        System.out.println(user.toString());
         try {
             User existingUser = this.userService.getUserByEmailId(user.getEmail());
             if (existingUser != null) {
-                return ResponseEntity.status(HttpStatus.OK).body("User Alreadey Exists");
+                return ResponseEntity.status(HttpStatus.OK).body("User Already Exists");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         System.out.println(user.toString());
         userService.registerUser(user);
-        return ResponseEntity.status(HttpStatus.OK).body("Registerd");
+        return ResponseEntity.status(HttpStatus.OK).body("Registered");
     }
 
     @PostMapping("/login")
     @PreAuthorize("permitAll()")
-    public ResponseEntity<?> authenticate(@RequestBody JwtRequest jwtRequest) {
+    public ResponseEntity<?> authenticate(@RequestBody JwtRequest jwtRequest) {//username and pwd are in jwt request
         try {
-            Authentication authentication = authenticationManager.authenticate(
+            Authentication authentication = authenticationManager.authenticate(//autrnticate method will authenticate the user using authentication manager 
                     new UsernamePasswordAuthenticationToken(
                             jwtRequest.getEmail(),
                             jwtRequest.getPassword()
                     )
             );
 
-            if (authentication.isAuthenticated()) {
+            if (authentication.isAuthenticated()) {//if authenticated loading user details(username,pwd,role)based on email id from db
                 UserDetails userDetails = userInfoDetailService.loadUserByUsername(jwtRequest.getEmail());
                 String token = jwtUtility.generateToken(userDetails);
                 this.tokenSaved(token);
